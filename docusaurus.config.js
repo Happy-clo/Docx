@@ -69,8 +69,8 @@ const config = {
             title: '文档',
             items: [
               {
-                type: 'doc',
-                id: 'welcome',
+                type: 'link',
+                href: '/',
                 label: '插件开发指南',
               },
             ],
