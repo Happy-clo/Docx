@@ -67,7 +67,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/Aterial-Clo',
+                href: 'https://github.com/Happy-clo/Docx',
               },
             ],
           },
