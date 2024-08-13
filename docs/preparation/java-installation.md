@@ -81,7 +81,7 @@ Java 开发工具包（JDK）是开发插件所必需的。以下是安装 JDK �
 
     - 保存并关闭文件（`Ctrl + X`，然后 `Y` 和 `Enter`）。
 
-    - 运行 source ~/.bash_profile 或 source ~/.zshrc 以使更改生效。
+    - 运行 `source ~/.bash_profile` 或 `source ~/.zshrc` 以使更改生效。
 
 4. **验证安装：**
 
