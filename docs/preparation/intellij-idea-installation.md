@@ -19,6 +19,6 @@ sidebar_position: 3
 
     - Rainbow Brackets
 
-安装完插件后，点击 "Restart IDE"（重启 IDE），以应用插件
+安装完插件后，点击 "Restart IDE"（重启 IDE），以应用插件。
 
-3. **配置 IDE：** 打开 Intellij IDEA，在左侧选择 "自定义"，这时你可以根据你的需求修改主题外观、字体大小等功能
+3. **配置 IDE：** 打开 Intellij IDEA，在左侧选择 "自定义"，这时你可以根据你的需求修改主题外观、字体大小等功能。
