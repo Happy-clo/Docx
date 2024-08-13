@@ -1,5 +1,6 @@
 ---
 title: 欢迎
+id: welcome
 sidebar_position: 1
 ---
 

@@ -16,7 +16,7 @@ const config = {
   url: 'https://docs.aterial.top/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/plugin-docs/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -69,8 +69,9 @@ const config = {
             title: '文档',
             items: [
               {
+                type: 'doc',
+                id: 'welcome',
                 label: '插件开发指南',
-                to: '/plugin-docs/',
               },
             ],
           },
