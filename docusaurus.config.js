@@ -36,6 +36,7 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           routeBasePath: '/',
+          onBrokenLinks: 'ignore',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -64,7 +65,7 @@ const config = {
             items: [
               {
                 type: 'link',
-                href: '/getting-started',
+                href: '/',
                 label: '插件开发指南',
               },
             ],
