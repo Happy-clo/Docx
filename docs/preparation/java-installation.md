@@ -15,12 +15,12 @@ Java 开发工具包（JDK）是开发插件所必需的。以下是安装 JDK �
 
 - 选择适合 Windows 系统和版本的 JDK 进行下载，但请确保下载与服务器兼容的版本。
 
-| 游戏版本 | 推荐 JDK 版本 |
-|--|--|
-| 1.16 之前 | JDK 8 |
-| 1.16 - 1.16.5 | JDK 16 |
-| 1.17 - 1.20.4 | JDK 17 |
-| 1.20.5 - 1.21 及之后 | JDK 21 |
+| 游戏版本             | 推荐 JDK 版本 |
+| -------------------- | ------------- |
+| 1.16 之前            | JDK 8         |
+| 1.16 - 1.16.5        | JDK 16        |
+| 1.17 - 1.20.4        | JDK 17        |
+| 1.20.5 - 1.21 及之后 | JDK 21        |
 
 2. **安装 JDK：**
 
@@ -40,11 +40,11 @@ Java 开发工具包（JDK）是开发插件所必需的。以下是安装 JDK �
 
 - 创建或修改 `JAVA_HOME` 变量：
 
-    - 在 "系统变量" 部分，点击 "新建"。
+  - 在 "系统变量" 部分，点击 "新建"。
 
-    - 变量名输入 `JAVA_HOME`，变量值输入 JDK 安装路径，例如 `C:\Program Files\Java\jdk-xx`。
+  - 变量名输入 `JAVA_HOME`，变量值输入 JDK 安装路径，例如 `C:\Program Files\Java\jdk-xx`。
 
-    - 点击 "确定" 保存更改。
+  - 点击 "确定" 保存更改。
 
 4. **验证安装：**
 
@@ -70,18 +70,18 @@ Java 开发工具包（JDK）是开发插件所必需的。以下是安装 JDK �
 
 - macOS 通常会自动配置环境变量，但你可以手动检查或配置：
 
-    - 打开终端（Terminal）。
+  - 打开终端（Terminal）。
 
-    - 输入 `nano ~/.bash_profile` 或 `nano ~/.zshrc`（取决于你使用的 shell），然后添加以下行：
+  - 输入 `nano ~/.bash_profile` 或 `nano ~/.zshrc`（取决于你使用的 shell），然后添加以下行：
 
-    ```jsx title="bash"
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    export PATH=$JAVA_HOME/bin:$PATH
-    ```
+  ```jsx title="bash"
+  export JAVA_HOME=$(/usr/libexec/java_home)
+  export PATH=$JAVA_HOME/bin:$PATH
+  ```
 
-    - 保存并关闭文件（`Ctrl + X`，然后 `Y` 和 `Enter`）。
+  - 保存并关闭文件（`Ctrl + X`，然后 `Y` 和 `Enter`）。
 
-    - 运行 `source ~/.bash_profile` 或 `source ~/.zshrc` 以使更改生效。
+  - 运行 `source ~/.bash_profile` 或 `source ~/.zshrc` 以使更改生效。
 
 4. **验证安装：**
 
@@ -119,6 +119,7 @@ nano ~/.bashrc
 ```
 
 - 添加以下行：
+
 ```jsx title="bash"
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 export PATH=$JAVA_HOME/bin:$PATH

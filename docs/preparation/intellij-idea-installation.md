@@ -9,10 +9,10 @@ sidebar_position: 3
 
 1. **下载：** 访问 [IntelliJ IDEA 官方网站](https://www.jetbrains.com/idea/download/) 下载并安装 Community（社区）版本。
 
-2. **安装插件：** 
+2. **安装插件：**
 
 打开 Intellij IDEA，在左侧选择 "Plugins"（插件），在上面选择 "Marketplace"（市场），然后搜索并安装以下插件：
-    
+
     - Chinese (Simplified) Language Pack / 中文语言包
 
     - Minecraft Development
