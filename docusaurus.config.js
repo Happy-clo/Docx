@@ -64,7 +64,7 @@ const config = {
             items: [
               {
                 type: 'link',
-                href: '/',
+                href: '/getting-started',
                 label: '插件开发指南',
               },
             ],
