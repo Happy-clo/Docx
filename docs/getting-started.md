@@ -1,6 +1,6 @@
 ---
 title: 欢迎
-id: welcome
+slug: /getting-started
 sidebar_position: 1
 ---
 
