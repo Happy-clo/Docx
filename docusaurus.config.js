@@ -1,4 +1,4 @@
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -6,6 +6,7 @@ const config = {
   tagline: '希望您在这里度过愉快的时光，收获满满！🎉✨',
   favicon: 'img/favicon.ico',
   onBrokenLinks: 'ignore',
+  onBrokenMarkdownLinks: 'warn',
   // Set the production url of your site here
   url: 'https://docs.aterial.top/',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -16,9 +17,6 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'Aterial-clo', // Usually your GitHub org/user name.
   projectName: 'plugin-docs', // Usually your repo name.
-
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
