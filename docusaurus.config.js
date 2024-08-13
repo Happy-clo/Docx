@@ -36,7 +36,6 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           routeBasePath: '/',
-          onBrokenLinks: 'ignore',
         },
         theme: {
           customCss: './src/css/custom.css',
