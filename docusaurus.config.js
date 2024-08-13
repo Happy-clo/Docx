@@ -61,7 +61,6 @@ const config = {
             title: '文档',
             items: [
               {
-                type: 'link',
                 href: 'https://docs.aterial.top',
                 label: '插件开发指南',
               },
