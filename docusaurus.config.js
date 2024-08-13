@@ -5,7 +5,7 @@ const config = {
   title: 'Aterial Docs',
   tagline: '希望您在这里度过愉快的时光，收获满满！🎉✨',
   favicon: 'img/favicon.ico',
-
+  onBrokenLinks: 'ignore',
   // Set the production url of your site here
   url: 'https://docs.aterial.top/',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -64,7 +64,7 @@ const config = {
             items: [
               {
                 type: 'link',
-                href: 'https://docs.aterial.top/plugin-docs/',
+                href: 'https://docs.aterial.top',
                 label: '插件开发指南',
               },
             ],
