@@ -1,14 +1,14 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Aterial Docs',
+  title: 'Artaphy Docs',
   tagline: '希望您在这里度过愉快的时光，收获满满！🎉✨',
   favicon: 'img/favicon.ico',
   onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'ignore',
   url: 'https://docs.aterial.top',
   baseUrl: '/',
-  organizationName: 'Aterial-clo',
+  organizationName: 'Artaphy',
   projectName: 'plugin-docs',
   i18n: {
     defaultLocale: 'zh-Hans',
@@ -34,7 +34,7 @@ const config = {
     ({
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: '插件开发指南',
+        title: 'Artaphy Docs',
         logo: {
           alt: 'Logo',
           src: 'img/logo.svg',
