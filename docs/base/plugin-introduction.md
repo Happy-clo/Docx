@@ -1,5 +1,5 @@
 ---
-title: 引言
+title: 插件介绍
 sidebar_position: 3
 ---
 

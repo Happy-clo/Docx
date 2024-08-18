@@ -1,6 +1,6 @@
 ---
 title: 代码中的 MC 世界
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 如果你玩过《Minecraft》(简称 MC)，那么你可能想象过将 MC 代码化是怎样的体验。特别是如果你有 Java 开发经验，那么你可能对 JavaDoc 有所了解，而 SpigotMC 官方提供了与 MC 开发相关的 JavaDoc 文档。
