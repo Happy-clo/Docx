@@ -62,7 +62,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Artaphy & Happy-clo Docs, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Artaphy Docs, Inc.`,
       },
       prism: {
         theme: prismThemes.github,
