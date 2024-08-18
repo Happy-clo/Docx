@@ -1,6 +1,10 @@
 # Minecraft 插件开发指南 📦
 
-欢迎阅读本项目的 README 文件！本项目旨在帮助你快速上手 Minecraft 插件开发。通过学习，你可以为 Minecraft 服务器编写自己的插件，实现各种自定义功能和玩法。
+欢迎阅读本项目的 README 文件！本项目的目的是帮助你快速掌握 Minecraft 插件开发技能。通过学习本指南，你将能够为 Minecraft 服务器编写自己的插件，从而实现各种自定义功能和玩法。
+
+本指南部分内容参考了 [BukkitDevelopmentNote](https://github.com/tdiant/BukkitDevelopmentNote.git)，感谢原作者的贡献。
+
+让我们一起踏上这段充满创造力和乐趣的开发之旅吧！🚀
 
 # 关于名称 Artaphy 🎨
 
