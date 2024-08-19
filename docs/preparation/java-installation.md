@@ -3,7 +3,7 @@ title: 安装 JDK
 sidebar_position: 1
 ---
 
-# 安装 JDK ☕️
+# 安装 JDK
 
 Java 开发工具包（JDK）是开发插件的关键。根据你的操作系统，以下是详细的安装步骤：
 
