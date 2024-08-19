@@ -23,14 +23,14 @@ sidebar_position: 2
 
 **示例代码：**
 
-```java
+```jsx title="java"
 Block b = 方块;
 b.setType(Material.STONE);
 ```
 
 删除一个方块：
 
-```java
+```jsx title="java"
 b.setType(Material.AIR); // 设置为空气
 ```
 
@@ -38,7 +38,7 @@ b.setType(Material.AIR); // 设置为空气
 
 一些方块具有特定的属性和功能，比如告示牌上可以显示文字。在 BukkitAPI 中，`Block` 类有许多子类，例如 `Sign` 表示一个告示牌对象。你可以修改告示牌上的文字：
 
-```java
+```jsx title="java"
 Block b = 你获取到的告示牌方块;
 Sign s = (Sign) b; // 强制转换为 Sign 对象
 s.setLine(0, "测试"); // 修改第一行文字为“测试”
@@ -80,7 +80,7 @@ s.setLine(0, "测试"); // 修改第一行文字为“测试”
 
 **示例代码：**
 
-```java
+```jsx title="java"
 public class DemoListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
@@ -95,11 +95,11 @@ MC 中的命令是一种字符串，用于实现游戏中的高级功能。命�
 
 **示例代码：**
 
-```java
+```jsx title="java"
 if (args.length == 0) {
-    // 玩家没有输入参数
+  // 玩家没有输入参数
 } else if (args[0].equalsIgnoreCase("example")) {
-    // 玩家输入了 /命令名 example
+  // 玩家输入了 /命令名 example
 }
 ```
 
