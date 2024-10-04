@@ -1,9 +1,9 @@
-name: Build and Deploy Website
+name: Dev Build
 
 on:
   push:
     branches:
-      - master
+      - dev
 
 jobs:
   build:
@@ -21,24 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+
       - name: Build Docusaurus site
         run: npm run build
 
       - name: Deploy Artifact
         uses: actions/upload-artifact@main
         with:
-          name: Website-${{ github.sha }}
+          name: Website-${{ github.sha }}-dev
           path: build
 
       - name: List files in build directory
         run: ls -la build/
-
-      - name: Deploy
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
-          ARGS: "-avz --delete"
-          SOURCE: "build/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.TARGET }}
