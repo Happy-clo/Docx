@@ -2,6 +2,8 @@ name: Deploy Docusaurus And Upload Artifacts
 
 on:
   push:
+    branches:
+      - master
 
 jobs:
   build:
