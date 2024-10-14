@@ -24,5 +24,3 @@ Artaphy 名称不仅仅代表着两位作者的名字结合，更蕴含着他们
 如需转载任何内容，请详细注明出处，且仅供学习交流使用，谢绝用于商业化用途。
 
 感谢您的理解与支持！🙏
-> [!CAUTION]  
-> This branch is only for personal development, study and research. Please do not use any attachments directly. The author is not responsible for any problems with the source attachments.
