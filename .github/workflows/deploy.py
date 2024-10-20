@@ -1,6 +1,7 @@
 import asyncio
 import os
 import paramiko
+import io
 
 
 async def remove_remote_files(sftp, remote_dir):
