@@ -36,6 +36,15 @@ jobs:
           pwd
           ls -la build/
 
+      - name: Set up Python 3
+        uses: actions/setup-python@v5.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies for deployment
+        run: |
+          pip install paramiko
+
       - name: Deploy to Server
         env:
           LOCAL_DIR: "${{ secrets.LOCAL_DIR }}"
@@ -43,4 +52,5 @@ jobs:
           SERVER_IP: "${{ secrets.SERVER_IP }}"
           SERVER_PORT: "${{ secrets.SERVER_PORT }}"
           PRIVATE_KEY_PATH: "${{ secrets.ACCESS_TOKEN }}"
-        run: python /home/runner/work/Docx/Docx/.github/workflows/deploy.py
+        run: |
+          python /home/runner/work/Docx/Docx/.github/workflows/deploy.py
