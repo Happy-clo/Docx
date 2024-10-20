@@ -35,3 +35,12 @@ jobs:
         run: |
           pwd
           ls -la build/
+
+      - name: Deploy to Server
+        env:
+          LOCAL_DIR: "${{ secrets.LOCAL_DIR }}"
+          REMOTE_DIR: "${{ secrets.REMOTE_DIR }}"
+          SERVER_IP: "${{ secrets.SERVER_IP }}"
+          SERVER_PORT: "${{ secrets.SERVER_PORT }}"
+          PRIVATE_KEY_PATH: "${{ secrets.ACCESS_TOKEN }}"
+        run: python /home/runner/work/Docx/Docx/.github/workflows/deploy.py
