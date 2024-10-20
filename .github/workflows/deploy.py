@@ -7,7 +7,6 @@ async def remove_remote_files(sftp, remote_dir):
     """删除给定远程目录中的所有文件。"""
     for entry in sftp.listdir(remote_dir):
         remote_path = os.path.join(remote_dir, entry)
-        # 如果是目录，则递归删除
         if sftp.stat(remote_path).st_mode & 0o40000:  # 检查是否为目录
             await remove_remote_files(sftp, remote_path)
             sftp.rmdir(remote_path)  # 删除目录
@@ -16,17 +15,17 @@ async def remove_remote_files(sftp, remote_dir):
     print(f"已清除远程目录: {remote_dir}")
 
 
-async def synchronize_files(
-    local_dir, remote_dir, server_ip, server_port, private_key_path
-):
+async def synchronize_files(local_dir, remote_dir, server_ip, server_port, private_key):
     # 创建SSH客户端
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    # 使用私钥连接到远程服务器
-    private_key = paramiko.RSAKey.from_private_key_file(private_key_path)
+    # 使用私钥字符串连接到远程服务器
+    private_key_obj = paramiko.RSAKey(file_obj=private_key)
     try:
-        client.connect(server_ip, port=server_port, username="root", pkey=private_key)
+        client.connect(
+            server_ip, port=server_port, username="root", pkey=private_key_obj
+        )
         sftp = client.open_sftp()
 
         # 确保远程目录存在
@@ -76,11 +75,12 @@ async def main():
     remote_dir = os.getenv("REMOTE_DIR")
     server_ip = os.getenv("SERVER_IP")
     server_port = int(os.getenv("SERVER_PORT", 22))  # 默认端口22
-    private_key_path = os.getenv("PRIVATE_KEY_PATH")
+    private_key_str = os.getenv("PRIVATE_KEY")  # 这里获取私钥字符串
 
-    await synchronize_files(
-        local_dir, remote_dir, server_ip, server_port, private_key_path
-    )
+    # 将私钥字符串转换为文件对象
+    private_key = io.StringIO(private_key_str)
+
+    await synchronize_files(local_dir, remote_dir, server_ip, server_port, private_key)
 
 
 if __name__ == "__main__":
