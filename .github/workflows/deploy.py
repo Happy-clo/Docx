@@ -4,6 +4,7 @@ import paramiko
 import io
 import zipfile
 import hashlib
+import subprocess
 
 
 async def remove_remote_files(sftp, remote_dir):
@@ -25,6 +26,22 @@ def md5_for_file(file_path):
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
+
+def print_system_info():
+    """打印系统当前详细配置。"""
+    print("当前系统配置:")
+    subprocess.run("uname -a", shell=True)  # 打印系统信息
+    subprocess.run("df -h", shell=True)  # 打印磁盘使用情况
+    subprocess.run("free -h", shell=True)  # 打印内存使用情况
+    subprocess.run("lscpu", shell=True)  # 打印CPU信息
+
+
+def test_network_speed():
+    """测试本机当前网速。"""
+    print("正在测试网络速度...")
+    result = subprocess.run(["speedtest-cli"], capture_output=True, text=True)
+    print(result.stdout)
 
 
 async def synchronize_files(local_dir, remote_dir, server_ip, server_port, private_key):
@@ -103,6 +120,12 @@ async def main():
     # 打印脚本的绝对目录
     current_directory = os.path.abspath(os.getcwd())
     print(f"当前脚本绝对目录：{current_directory}")
+
+    # 打印系统配置信息
+    print_system_info()
+
+    # 测试网络速度
+    test_network_speed()
 
     # 从环境变量获取参数
     local_dir = os.getenv("LOCAL_DIR")

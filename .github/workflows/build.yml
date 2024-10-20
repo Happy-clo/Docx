@@ -43,6 +43,7 @@ jobs:
 
       - name: Install dependencies for deployment
         run: |
+          pip install speedtest-cli
           pip install paramiko
 
       - name: Deploy to Server
