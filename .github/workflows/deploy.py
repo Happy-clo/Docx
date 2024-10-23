@@ -66,7 +66,9 @@ async def synchronize_files(
         client.connect(
             server_ip, port=server_port, username=username, pkey=private_key_obj
         )
-        async with client.open_sftp() as sftp:
+
+        sftp = client.open_sftp()  # 使用同步方式打开 SFTP 连接
+        try:
             # 确保远程目录存在
             try:
                 sftp.stat(remote_dir)
@@ -98,6 +100,9 @@ async def synchronize_files(
             # 清理
             os.remove(zip_file_path)  # 删除本地压缩包
             logging.info("文件同步完成！")
+
+        finally:
+            sftp.close()  # 确保关闭 SFTP 连接
 
     except Exception as e:
         logging.error(f"连接错误: {e}")
@@ -145,7 +150,7 @@ async def verify_files_md5(local_dir, remote_dir, client):
 async def main():
     """主函数，运行整个同步过程。"""
     current_directory = os.path.abspath(os.getcwd())
-    logging.info(f"当前脚本运行目录：{current_directory}")
+    logging.info(f"当前脚本绝对目录：{current_directory}")
 
     print_system_info()
     test_network_speed()
