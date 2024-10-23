@@ -38,16 +38,40 @@ async def md5_for_file(file_path):
     return hash_md5.hexdigest()
 
 
-def print_system_info():
-    """打印系统当前详细配置。"""
+def print_summary_system_info():
+    """打印系统当前重要配置。"""
     logging.info("当前系统配置:")
-    subprocess.run("uname -a", shell=True)  # 打印系统信息
-    subprocess.run("df -h", shell=True)  # 打印磁盘使用情况
-    subprocess.run("free -h", shell=True)  # 打印内存使用情况
-    subprocess.run("lscpu", shell=True)  # 打印CPU信息
+
+    # 获取操作系统信息
+    os_info = subprocess.check_output("lsb_release -a", text=True)
+
+    # 获取内核信息
+    kernel_info = subprocess.check_output("uname -r", text=True).strip()
+
+    # 获取CPU信息
+    cpu_info = subprocess.check_output("lscpu | grep 'Model name'", text=True).strip()
+
+    # 获取内存信息
+    mem_info = subprocess.check_output(
+        "free -h | awk 'NR==2{printf \"内存: %s (已用: %s, 可用: %s)\", \$2, \$3, \$7}'",
+        text=True,
+    )
+
+    # 获取磁盘使用情况
+    disk_info = subprocess.check_output(
+        "df -h / | awk 'NR==2{printf \"根分区: %s (已用: %s, 可用: %s)\", \$2, \$3, \$4}'",
+        text=True,
+    )
+
+    # 打印信息
+    logging.info(os_info.strip())
+    logging.info(f"内核版本: {kernel_info}")
+    logging.info(cpu_info)
+    logging.info(mem_info)
+    logging.info(disk_info)
 
 
-def test_network_speed():
+async def test_network_speed():
     """测试本机当前网速。"""
     logging.info("正在测试网络速度...")
     result = subprocess.run(["speedtest-cli"], capture_output=True, text=True)
@@ -152,8 +176,8 @@ async def main():
     current_directory = os.path.abspath(os.getcwd())
     logging.info(f"当前脚本绝对目录：{current_directory}")
 
-    print_system_info()
-    test_network_speed()
+    print_summary_system_info()  # 打印系统重要信息
+    await test_network_speed()  # 测试网络速度
 
     # 从环境变量获取参数
     local_dir = os.getenv("LOCAL_DIR")
