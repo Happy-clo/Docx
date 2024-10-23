@@ -43,32 +43,56 @@ def print_summary_system_info():
     logging.info("当前系统配置:")
 
     # 获取操作系统信息
-    os_info = subprocess.check_output("lsb_release -a", text=True)
+    try:
+        os_info = subprocess.check_output("cat /etc/os-release", text=True)
+        logging.info(os_info.strip())
+    except Exception as e:
+        logging.error(f"获取操作系统信息失败: {e}")
 
     # 获取内核信息
-    kernel_info = subprocess.check_output("uname -r", text=True).strip()
+    try:
+        kernel_info = subprocess.check_output("uname -r", text=True).strip()
+        logging.info(f"内核版本: {kernel_info}")
+    except Exception as e:
+        logging.error(f"获取内核信息失败: {e}")
 
     # 获取CPU信息
-    cpu_info = subprocess.check_output("lscpu | grep 'Model name'", text=True).strip()
+    try:
+        cpu_info = subprocess.check_output(
+            "lscpu | grep 'Model name'", text=True
+        ).strip()
+        logging.info(cpu_info)
+    except Exception as e:
+        logging.error(f"获取CPU信息失败: {e}")
 
     # 获取内存信息
-    mem_info = subprocess.check_output(
-        "free -h | awk 'NR==2{printf \"内存: %s (已用: %s, 可用: %s)\", \$2, \$3, \$7}'",
-        text=True,
-    )
+    try:
+        mem_info = subprocess.check_output(
+            "free -h | awk 'NR==2{printf \"内存: %s (已用: %s, 可用: %s)\", \$2, \$3, \$7}'",
+            text=True,
+        )
+        logging.info(mem_info)
+    except Exception as e:
+        logging.error(f"获取内存信息失败: {e}")
 
     # 获取磁盘使用情况
-    disk_info = subprocess.check_output(
-        "df -h / | awk 'NR==2{printf \"根分区: %s (已用: %s, 可用: %s)\", \$2, \$3, \$4}'",
-        text=True,
-    )
+    try:
+        disk_info = subprocess.check_output(
+            "df -h / | awk 'NR==2{printf \"根分区: %s (已用: %s, 可用: %s)\", \$2, \$3, \$4}'",
+            text=True,
+        )
+        logging.info(disk_info)
+    except Exception as e:
+        logging.error(f"获取磁盘信息失败: {e}")
 
-    # 打印信息
-    logging.info(os_info.strip())
-    logging.info(f"内核版本: {kernel_info}")
-    logging.info(cpu_info)
-    logging.info(mem_info)
-    logging.info(disk_info)
+    # 打印虚拟化信息
+    try:
+        virtualization_info = subprocess.check_output(
+            "lscpu | grep 'Virtualization'", text=True
+        ).strip()
+        logging.info(virtualization_info)
+    except Exception as e:
+        logging.error(f"获取虚拟化信息失败: {e}")
 
 
 async def test_network_speed():
