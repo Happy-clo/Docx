@@ -7,6 +7,10 @@ import hashlib
 import subprocess
 import logging
 import aiofiles
+from dotenv import load_dotenv
+
+# 加载 .env 文件中的环境变量
+load_dotenv()
 
 # 设置日志记录
 logging.basicConfig(
@@ -41,7 +45,12 @@ async def checksum_for_file(file_path, algo="md5"):
 async def execute_command_async(client, command):
     """异步执行远程命令并返回输出。"""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(None, lambda: client.exec_command(command))
+    stdin, stdout, stderr = await loop.run_in_executor(
+        None, lambda: client.exec_command(command)
+    )
+    stdout_data = await loop.run_in_executor(None, stdout.read)
+    stderr_data = await loop.run_in_executor(None, stderr.read)
+    return stdin, stdout_data.decode(), stderr_data.decode()
 
 
 async def verify_files_checksums(local_dir, remote_dir, client):
@@ -60,11 +69,11 @@ async def verify_files_checksums(local_dir, remote_dir, client):
 
             # 异步执行MD5命令
             stdin, stdout, stderr = await execute_command_async(client, md5_command)
-            remote_md5 = stdout.read().decode().strip()
+            remote_md5 = stdout.strip()
 
             # 异步执行SHA命令
             stdin, stdout, stderr = await execute_command_async(client, sha_command)
-            remote_sha = stdout.read().decode().strip()
+            remote_sha = stdout.strip()
 
             if local_md5 == remote_md5 and local_sha == remote_sha:
                 logging.info(f"校验成功: {remote_file_path}")
