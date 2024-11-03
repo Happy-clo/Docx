@@ -48,12 +48,19 @@ jobs:
           pip install python-dotenv
           pip install paramiko
 
+      - name: Get timestamp and short SHA
+        id: timestamp
+        run: |
+          echo "::set-output name=timestamp::$(TZ='Asia/Shanghai' date +%s)"
+          echo "::set-output name=repo_name::$(echo ${{ github.repository }} | cut -d'/' -f2)"
+          echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+
       - name: Deploy to Server
         env:
-          LOCAL_DIR: "${{ secrets.LOCAL_DIR }}"
+          LOCAL_DIR: "/home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}"
           REMOTE_DIR: "${{ secrets.REMOTE_DIR }}"
           SERVER_IP: "${{ secrets.SERVER_IP }}"
           SERVER_PORT: "${{ secrets.SERVER_PORT }}"
           PRIVATE_KEY: "${{ secrets.ACCESS_TOKEN }}"
         run: |
-          python /home/runner/work/Docx/Docx/.github/workflows/deploy.py
+          python /home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}/.github/workflows/deploy.py
