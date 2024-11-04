@@ -1,10 +1,10 @@
+import argparse
 import asyncio
 import os
 import paramiko
 import io
 import zipfile
 import hashlib
-import subprocess
 import logging
 import aiofiles
 from dotenv import load_dotenv
@@ -19,15 +19,25 @@ logging.basicConfig(
 
 
 async def remove_remote_files(sftp, remote_dir):
-    """删除给定远程目录中的所有文件。"""
-    for entry in sftp.listdir(remote_dir):
-        remote_path = os.path.join(remote_dir, entry)
-        if sftp.stat(remote_path).st_mode & 0o40000:  # 检查是否为目录
-            await remove_remote_files(sftp, remote_path)
-            sftp.rmdir(remote_path)  # 删除目录
-        else:
-            sftp.remove(remote_path)  # 删除文件
-    logging.info(f"已清除远程目录: {remote_dir}")
+    """删除给定远程目录中的所有文件和文件夹。"""
+    try:
+        # 获取远程目录中所有条目
+        entries = sftp.listdir(remote_dir)
+
+        for entry in entries:
+            remote_path = os.path.join(remote_dir, entry)
+            try:
+                if sftp.stat(remote_path).st_mode & 0o40000:  # 检查是否为目录
+                    await remove_remote_files(sftp, remote_path)  # 递归删除目录内容
+                    sftp.rmdir(remote_path)  # 删除空目录
+                else:
+                    sftp.remove(remote_path)  # 删除文件
+            except Exception as e:
+                logging.warning(f"删除 {remote_path} 时出错: {e}")
+
+        logging.info(f"已清除远程目录: {remote_dir}")
+    except Exception as e:
+        logging.error(f"清除远程目录时出错: {e}")
 
 
 async def checksum_for_file(file_path, algo="md5"):
@@ -85,7 +95,13 @@ async def verify_files_checksums(local_dir, remote_dir, client):
 
 
 async def synchronize_files(
-    local_dir, remote_dir, server_ip, server_port, username, private_key
+    local_dir,
+    remote_dir,
+    server_ip,
+    server_port,
+    username,
+    private_key,
+    delete_old_files,
 ):
     """同步本地目录到远程目录。"""
     client = paramiko.SSHClient()
@@ -105,38 +121,35 @@ async def synchronize_files(
             except FileNotFoundError:
                 sftp.mkdir(remote_dir)
 
-            while True:
-                # 删除远程目录中的现有文件
+            if delete_old_files:
+                # 删除远程目录中的现有文件和文件夹
                 await remove_remote_files(sftp, remote_dir)
 
-                # 压缩本地目录
-                zip_file_path = f"{local_dir}.zip"
-                await compress_directory(local_dir, zip_file_path)
+            # 压缩本地目录
+            zip_file_path = f"{local_dir}.zip"
+            await compress_directory(local_dir, zip_file_path)
 
-                # 上传压缩包
-                remote_zip_file_path = os.path.join(
-                    remote_dir, os.path.basename(zip_file_path)
-                )
-                logging.info(
-                    f"正在上传压缩包: {zip_file_path} 到 {remote_zip_file_path}"
-                )
-                sftp.put(zip_file_path, remote_zip_file_path)
+            # 上传压缩包
+            remote_zip_file_path = os.path.join(
+                remote_dir, os.path.basename(zip_file_path)
+            )
+            logging.info(f"正在上传压缩包: {zip_file_path} 到 {remote_zip_file_path}")
+            sftp.put(zip_file_path, remote_zip_file_path)
 
-                # 在远程服务器上解压缩文件
-                await execute_command_async(
-                    client, f"unzip -o {remote_zip_file_path} -d {remote_dir}"
-                )
+            # 在远程服务器上解压缩文件
+            await execute_command_async(
+                client, f"unzip -o {remote_zip_file_path} -d {remote_dir}"
+            )
 
-                # 验证每个文件的MD5和SHA校验和
-                checksums_match = await verify_files_checksums(
-                    local_dir, remote_dir, client
-                )
+            # 验证每个文件的MD5和SHA校验和
+            checksums_match = await verify_files_checksums(
+                local_dir, remote_dir, client
+            )
 
-                if checksums_match:
-                    logging.info("文件同步完成！")
-                    break  # 退出循环，表示同步成功
-                else:
-                    logging.info("重新上传文件...")
+            if checksums_match:
+                logging.info("文件同步完成！")
+            else:
+                logging.info("重新上传文件...")
 
             # 清理
             os.remove(zip_file_path)  # 删除本地压缩包
@@ -162,6 +175,10 @@ async def compress_directory(local_dir, zip_file_path):
 
 async def main():
     """主函数，运行整个同步过程。"""
+    parser = argparse.ArgumentParser(description="同步本地文件到远程服务器")
+    parser.add_argument("-d", action="store_true", help="删除远程目录中的所有文件")
+    args = parser.parse_args()
+
     current_directory = os.path.abspath(os.getcwd())
     logging.info(f"当前脚本绝对目录：{current_directory}")
 
@@ -177,7 +194,13 @@ async def main():
     private_key = io.StringIO(private_key_str)
 
     await synchronize_files(
-        local_dir, remote_dir, server_ip, server_port, username, private_key
+        local_dir,
+        remote_dir,
+        server_ip,
+        server_port,
+        username,
+        private_key,
+        delete_old_files=args.d,  # 根据命令行参数传递删除选项
     )
 
 

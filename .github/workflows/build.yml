@@ -63,4 +63,4 @@ jobs:
           SERVER_PORT: "${{ secrets.SERVER_PORT }}"
           PRIVATE_KEY: "${{ secrets.ACCESS_TOKEN }}"
         run: |
-          python /home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}/.github/workflows/deploy.py
+          python /home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}/.github/workflows/deploy.py -d
