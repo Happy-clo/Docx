@@ -20,24 +20,33 @@ logging.basicConfig(
 
 async def remove_remote_files(sftp, remote_dir):
     """删除给定远程目录中的所有文件和文件夹。"""
-    try:
-        # 获取远程目录中所有条目
-        entries = sftp.listdir(remote_dir)
+    while True:  # 循环直到成功删除所有条目
+        try:
+            entries = sftp.listdir(remote_dir)  # 获取远程目录中所有条目
+            if not entries:
+                logging.info(f"目录 {remote_dir} 为空，无需删除.")
+                break  # 如果没有条目，退出循环
 
-        for entry in entries:
-            remote_path = os.path.join(remote_dir, entry)
-            try:
-                if sftp.stat(remote_path).st_mode & 0o40000:  # 检查是否为目录
-                    await remove_remote_files(sftp, remote_path)  # 递归删除目录内容
-                    sftp.rmdir(remote_path)  # 删除空目录
-                else:
-                    sftp.remove(remote_path)  # 删除文件
-            except Exception as e:
-                logging.warning(f"删除 {remote_path} 时出错: {e}")
+            for entry in entries:
+                remote_path = os.path.join(remote_dir, entry)
+                try:
+                    if sftp.stat(remote_path).st_mode & 0o40000:  # 检查是否为目录
+                        await remove_remote_files(sftp, remote_path)  # 递归删除目录内容
+                        sftp.rmdir(remote_path)  # 删除空目录
+                    else:
+                        sftp.remove(remote_path)  # 删除文件
+                except Exception as e:
+                    logging.warning(f"删除 {remote_path} 时出错: {e}")
+                    logging.info("尝试刷新目录并重新获取待删除文件列表...")
+                    break  # 退出当前循环，以重新获取文件列表
 
-        logging.info(f"已清除远程目录: {remote_dir}")
-    except Exception as e:
-        logging.error(f"清除远程目录时出错: {e}")
+            # 如果没有异常，则成功清除了所有条目
+            logging.info(f"已清除远程目录: {remote_dir}")
+            break
+
+        except Exception as e:
+            logging.error(f"获取目录 {remote_dir} 时出错: {e}")
+            break  # 终止操作
 
 
 async def checksum_for_file(file_path, algo="md5"):
