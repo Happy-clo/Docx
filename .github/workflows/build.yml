@@ -57,7 +57,7 @@ jobs:
 
       - name: Deploy to Server
         env:
-          LOCAL_DIR: "/home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}"
+          LOCAL_DIR: "/home/runner/work/${{ steps.timestamp.outputs.repo_name }}/${{ steps.timestamp.outputs.repo_name }}/build"
           REMOTE_DIR: "${{ secrets.REMOTE_DIR }}"
           SERVER_IP: "${{ secrets.SERVER_IP }}"
           SERVER_PORT: "${{ secrets.SERVER_PORT }}"
